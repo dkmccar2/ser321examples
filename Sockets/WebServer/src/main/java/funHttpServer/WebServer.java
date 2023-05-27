@@ -20,6 +20,8 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 import java.nio.charset.Charset;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 
@@ -265,16 +267,21 @@ class WebServer {
           builder.append("HTTP/1.1 200 OK\n");
           builder.append("Content-Type: text/html; charset=utf-8\n");
           builder.append("\n");
+          JSONArray jsonArr = new JSONArray(json);
+          for (int i = 0; i < jsonArr.length(); i++) {
+            JSONObject jsonObj = jsonArr.getJSONObject(i);
+            String fullName = jsonObj.getString("full_name");
+            int id = jsonObj.getInt("id");
+            String owner = jsonObj.getString("owner");
+            builder.append("full_name : " + fullName +"\n"
+                    + "id : " + id +"\n"
+                    +"owner : " + owner + "\n");
+          }
+//          ObjectInputStream input = new ObjectInputStream(inStream);
+//          String jsonInput = (String) input.readObject();
+//          JSONObject jsonInputObject = new JSONObject(jsonInput);
 
-          ObjectInputStream input = new ObjectInputStream(inStream);
-          String jsonInput = (String) input.readObject();
-          JSONObject jsonInputObject = new JSONObject(jsonInput);
-          String fullName = jsonInputObject.getString("full_name");
-          int id = jsonInputObject.getInt("id");
-          String owner = jsonInputObject.getString("owner");
-          builder.append("full_name : " + fullName +"\n"
-                          + "id : " + id +"\n"
-                          +"owner : " + owner + "\n");
+
 //          Iterator<String> keys = jsonInputObject.keys();
 //          while(keys.hasNext()) {
 //
