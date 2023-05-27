@@ -202,47 +202,40 @@ class WebServer {
           // extract path parameters
           query_pairs = splitQuery(request.replace("multiply?", ""));
 
-          // extract required fields from parameters
-       //   String query1 = query_pairs.get("num1");
-         // String query2 = query_pairs.get("num2");
-//          if(query1 == null){
-//
-//          }
-//          if(query2 == null){
-//
-//          }
-//          if(query1.equals("")){
-//            query1 = "1";
-//          }else if(query2.equals("")){
-//            query2 = "1";
-//          }
           boolean num1err = false;
           boolean num2err = false;
           Integer num1 = 0;
           Integer num2 = 0;
-          try {
-            num1 = Integer.parseInt(query_pairs.get("num1"));
-          } catch (NumberFormatException e) {
-            num1err = true;
-            }
-          try {
-            num2 = Integer.parseInt(query_pairs.get("num2"));
-          } catch (NumberFormatException e) {
-            num2err = true;
-          }
-
-          if(num1err || num2err) {
-
+          if(query_pairs.get("num1") == null ||query_pairs.get("num2") == null){
             builder.append("HTTP/1.1 400 Bad Request\n");
             builder.append("Content-Type: text/html; charset=utf-8\n");
             builder.append("\n");
-            builder.append("Bad Request: Make sure to Supply the correct parameters. No Special characters, strings, char, or empty parameters. Example: /multiply?num1=1&num2=3");
+            builder.append("Bad Request: One or more parameters are invalid. Make sure to use num1 and num2 as parameters. Example: /multiply?num1=1&num2=2 ");
           }else {
-            Integer result = num1 * num2;
-            builder.append("HTTP/1.1 200 OK\n");
-            builder.append("Content-Type: text/html; charset=utf-8\n");
-            builder.append("\n");
-            builder.append("Result is: " + result);
+            try {
+              num1 = Integer.parseInt(query_pairs.get("num1"));
+            } catch (NumberFormatException e) {
+              num1err = true;
+            }
+            try {
+              num2 = Integer.parseInt(query_pairs.get("num2"));
+            } catch (NumberFormatException e) {
+              num2err = true;
+            }
+
+            if (num1err || num2err) {
+
+              builder.append("HTTP/1.1 400 Bad Request\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("Bad Request: Make sure to Supply the correct parameters. No Special characters, strings, char, or empty parameters. Example: /multiply?num1=1&num2=3");
+            } else {
+              Integer result = num1 * num2;
+              builder.append("HTTP/1.1 200 OK\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("Result is: " + result);
+            }
           }
             // do math
 
@@ -304,54 +297,60 @@ class WebServer {
           boolean aErr = false;
           boolean bErr = false;
           boolean cErr = false;
-          try {
-            a = Double.parseDouble(query_pairs.get("a"));
-          } catch (NumberFormatException e) {
-            aErr = true;
-          }
-          try {
-            b = Double.parseDouble(query_pairs.get("b"));
-          } catch (NumberFormatException e) {
-            bErr = true;
-          }
-          try {
-            c = Double.parseDouble(query_pairs.get("c"));
-          } catch (NumberFormatException e) {
-            cErr = true;
-          }
-          if(aErr || bErr || cErr) {
-
+          if(query_pairs.get("a") == null ||query_pairs.get("b") == null ||query_pairs.get("c") == null){
             builder.append("HTTP/1.1 400 Bad Request\n");
             builder.append("Content-Type: text/html; charset=utf-8\n");
             builder.append("\n");
-            builder.append("Bad Request: Make sure to Supply the correct parameters. No Special characters, strings, char, or empty parameters. Example: /quadraticsolver?a=1&b=3&c=5");
+            builder.append("Bad Request: One or more parameters are invalid. Make sure to use a, b, and c as parameters. Example: /quadraticsolver?a=1&b=2&c=3 ");
           }else {
-            double discriminant = b * b - 4 * a * c;
+            try {
+              a = Double.parseDouble(query_pairs.get("a"));
+            } catch (NumberFormatException e) {
+              aErr = true;
+            }
+            try {
+              b = Double.parseDouble(query_pairs.get("b"));
+            } catch (NumberFormatException e) {
+              bErr = true;
+            }
+            try {
+              c = Double.parseDouble(query_pairs.get("c"));
+            } catch (NumberFormatException e) {
+              cErr = true;
+            }
+            if (aErr || bErr || cErr) {
 
-            builder.append("HTTP/1.1 200 OK\n");
-            builder.append("Content-Type: text/html; charset=utf-8\n");
-            builder.append("\n");
-            // Check the nature of roots based on the discriminant
-            if (discriminant > 0) {
-              double root1 = (-b + Math.sqrt(discriminant)) / (2 * a);
-              double root2 = (-b - Math.sqrt(discriminant)) / (2 * a);
-              System.out.println("Root 1: " + root1);
-              System.out.println("Root 2: " + root2);
-              builder.append("The roots of the quadratic equation of the form "+a+"x^2+"+b+"x+"+c+": Root 1: "+root1+ " Root 2 :" + root2);
-
-            } else if (discriminant == 0) {
-              double root = -b / (2 * a);
-              System.out.println("Root: " + root);
-              builder.append("The quadratic equation of the form "+a+"x^2+"+b+"x+"+c+" has a single Root: "+root);
+              builder.append("HTTP/1.1 400 Bad Request\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("Bad Request: Make sure to Supply the correct parameters. No Special characters, strings, char, or empty parameters. Example: /quadraticsolver?a=1&b=3&c=5");
             } else {
-              System.out.println("No real roots exist.");
-              builder.append("No real roots exist.");
+              double discriminant = b * b - 4 * a * c;
+
+              builder.append("HTTP/1.1 200 OK\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              // Check the nature of roots based on the discriminant
+              if (discriminant > 0) {
+                double root1 = (-b + Math.sqrt(discriminant)) / (2 * a);
+                double root2 = (-b - Math.sqrt(discriminant)) / (2 * a);
+                System.out.println("Root 1: " + root1);
+                System.out.println("Root 2: " + root2);
+                builder.append("The roots of the quadratic equation of the form " + a + "x^2+" + b + "x+" + c + ": Root 1: " + root1 + " Root 2 :" + root2);
+
+              } else if (discriminant == 0) {
+                double root = -b / (2 * a);
+                System.out.println("Root: " + root);
+                builder.append("The quadratic equation of the form " + a + "x^2+" + b + "x+" + c + " has a single Root: " + root);
+              } else {
+                System.out.println("No real roots exist.");
+                builder.append("No real roots exist.");
+              }
             }
           }
 
-
         }
-        else if(request.contains("power?")){
+        else if(request.contains("power?")) {
           Map<String, String> query_pairs = new LinkedHashMap<String, String>();
           query_pairs = splitQuery(request.replace("power?", ""));
           Double base = 0.0;
@@ -360,34 +359,42 @@ class WebServer {
           boolean baseErr = false;
           boolean expErr = false;
 
-          try {
-            base = Double.parseDouble(query_pairs.get("base"));
-          } catch (NumberFormatException e) {
-            baseErr = true;
-          }
-          try {
-            exponent = Double.parseDouble(query_pairs.get("exponent"));
-          } catch (NumberFormatException e) {
-            expErr = true;
-          }
-
-          if(baseErr || expErr) {
-
+          if (query_pairs.get("base") == null || query_pairs.get("exponent") == null) {
             builder.append("HTTP/1.1 400 Bad Request\n");
             builder.append("Content-Type: text/html; charset=utf-8\n");
             builder.append("\n");
-            builder.append("Bad Request: Make sure to Supply the correct parameters. No Special characters, strings, char, or empty parameters. Example: /power?base=1&exponent=3");
-          }else {
-            double baseToThePowerOfExponent = Math.pow(base,exponent);
-            DecimalFormat decimalFormat = new DecimalFormat("#." + "0".repeat(4));
+            builder.append("Bad Request: One or more parameters are invalid. Make sure to use base and exponent as parameters. Example: /power?base=1&exponent=2 ");
+          } else {
 
-            // Apply the formatting to the number
-            String truncatedNumber = decimalFormat.format(baseToThePowerOfExponent);
+            try {
+              base = Double.parseDouble(query_pairs.get("base"));
+            } catch (NumberFormatException e) {
+              baseErr = true;
+            }
+            try {
+              exponent = Double.parseDouble(query_pairs.get("exponent"));
+            } catch (NumberFormatException e) {
+              expErr = true;
+            }
 
-            builder.append("HTTP/1.1 200 OK\n");
-            builder.append("Content-Type: text/html; charset=utf-8\n");
-            builder.append("\n");
-            builder.append(base+ " Raised to the power of "+exponent+ " is " +truncatedNumber);
+            if (baseErr || expErr) {
+
+              builder.append("HTTP/1.1 400 Bad Request\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("Bad Request: Make sure to Supply the correct parameters. No Special characters, strings, char, or empty parameters. Example: /power?base=1&exponent=3");
+            } else {
+              double baseToThePowerOfExponent = Math.pow(base, exponent);
+              DecimalFormat decimalFormat = new DecimalFormat("#." + "0".repeat(4));
+
+              // Apply the formatting to the number
+              String truncatedNumber = decimalFormat.format(baseToThePowerOfExponent);
+
+              builder.append("HTTP/1.1 200 OK\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append(base + " Raised to the power of " + exponent + " is " + truncatedNumber);
+            }
           }
         }
         else {
