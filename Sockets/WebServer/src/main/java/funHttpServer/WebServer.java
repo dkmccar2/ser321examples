@@ -210,7 +210,7 @@ class WebServer {
             builder.append("HTTP/1.1 400 Bad Request\n");
             builder.append("Content-Type: text/html; charset=utf-8\n");
             builder.append("\n");
-            builder.append("Bad Request: One or more parameters are invalid. Make sure to use num1 and num2 as parameters. Example: /multiply?num1=1&num2=2 ");
+            builder.append("400: Bad Request: One or more parameters are invalid. Make sure to use num1 and num2 as parameters. Example: /multiply?num1=1&num2=2 ");
           }else {
             try {
               num1 = Integer.parseInt(query_pairs.get("num1"));
@@ -228,7 +228,7 @@ class WebServer {
               builder.append("HTTP/1.1 400 Bad Request\n");
               builder.append("Content-Type: text/html; charset=utf-8\n");
               builder.append("\n");
-              builder.append("Bad Request: Make sure to Supply the correct parameters. No Special characters, strings, char, or empty parameters. Example: /multiply?num1=1&num2=3");
+              builder.append("400: Bad Request: Make sure to Supply the correct parameters. No Special characters, strings, char, or empty parameters. Example: /multiply?num1=1&num2=3");
             } else {
               Integer result = num1 * num2;
               builder.append("HTTP/1.1 200 OK\n");
@@ -301,7 +301,7 @@ class WebServer {
             builder.append("HTTP/1.1 400 Bad Request\n");
             builder.append("Content-Type: text/html; charset=utf-8\n");
             builder.append("\n");
-            builder.append("Bad Request: One or more parameters are invalid. Make sure to use a, b, and c as parameters. Example: /quadraticsolver?a=1&b=2&c=3 ");
+            builder.append("400: Bad Request: One or more parameters are invalid. Make sure to use a, b, and c as parameters. Example: /quadraticsolver?a=1&b=2&c=3 ");
           }else {
             try {
               a = Double.parseDouble(query_pairs.get("a"));
@@ -323,7 +323,7 @@ class WebServer {
               builder.append("HTTP/1.1 400 Bad Request\n");
               builder.append("Content-Type: text/html; charset=utf-8\n");
               builder.append("\n");
-              builder.append("Bad Request: Make sure to Supply the correct parameters. No Special characters, strings, char, or empty parameters. Example: /quadraticsolver?a=1&b=3&c=5");
+              builder.append("400: Bad Request: Make sure to Supply the correct parameters. No Special characters, strings, char, or empty parameters. Example: /quadraticsolver?a=1&b=3&c=5");
             } else {
               double discriminant = b * b - 4 * a * c;
 
@@ -363,7 +363,7 @@ class WebServer {
             builder.append("HTTP/1.1 400 Bad Request\n");
             builder.append("Content-Type: text/html; charset=utf-8\n");
             builder.append("\n");
-            builder.append("Bad Request: One or more parameters are invalid. Make sure to use base and exponent as parameters. Example: /power?base=1&exponent=2 ");
+            builder.append("400: Bad Request: One or more parameters are invalid. Make sure to use base and exponent as parameters. Example: /power?base=1&exponent=2 ");
           } else {
 
             try {
@@ -382,7 +382,7 @@ class WebServer {
               builder.append("HTTP/1.1 400 Bad Request\n");
               builder.append("Content-Type: text/html; charset=utf-8\n");
               builder.append("\n");
-              builder.append("Bad Request: Make sure to Supply the correct parameters. No Special characters, strings, char, or empty parameters. Example: /power?base=1&exponent=3");
+              builder.append("400: Bad Request: Make sure to Supply the correct parameters. No Special characters, strings, char, or empty parameters. Example: /power?base=1&exponent=3");
             } else {
               double baseToThePowerOfExponent = Math.pow(base, exponent);
               DecimalFormat decimalFormat = new DecimalFormat("#." + "0".repeat(4));
