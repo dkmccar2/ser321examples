@@ -291,15 +291,66 @@ class WebServer {
             builder.append("HTTP/1.1 404 Resource Not Found\n");
             builder.append("Content-Type: text/html; charset=utf-8\n");
             builder.append("\n");
-            builder.append("404: Resource Not Found. Check URL for correct format and correct username. Example format: /github?query=users/amehlhase316/repos" );
+            builder.append("404: Resource Not Found. Check URL for correct format and username. Example format: /github?query=users/amehlhase316/repos" );
+          }
+
+        }else if(request.contains("quadraticsolver?")){
+          Map<String, String> query_pairs = new LinkedHashMap<String, String>();
+          query_pairs = splitQuery(request.replace("quadraticsolver?", ""));
+          Integer a = 0;
+          Integer b = 0;
+          Integer c = 0;
+          boolean aErr = false;
+          boolean bErr = false;
+          boolean cErr = false;
+          try {
+            a = Integer.parseInt(query_pairs.get("a"));
+          } catch (NumberFormatException e) {
+            aErr = true;
+          }
+          try {
+            b = Integer.parseInt(query_pairs.get("b"));
+          } catch (NumberFormatException e) {
+            bErr = true;
+          }
+          try {
+            c = Integer.parseInt(query_pairs.get("c"));
+          } catch (NumberFormatException e) {
+            cErr = true;
+          }
+          if(aErr || bErr || cErr) {
+
+            builder.append("HTTP/1.1 400 Bad Request\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Bad Request: Make sure to Supply the correct parameters. No Special characters, strings, char, or empty parameters. Example: /quadraticsolver?a=1&b=3&c=5");
+          }else {
+            double discriminant = b * b - 4 * a * c;
+
+            builder.append("HTTP/1.1 200 OK\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            // Check the nature of roots based on the discriminant
+            if (discriminant > 0) {
+              double root1 = (-b + Math.sqrt(discriminant)) / (2 * a);
+              double root2 = (-b - Math.sqrt(discriminant)) / (2 * a);
+              System.out.println("Root 1: " + root1);
+              System.out.println("Root 2: " + root2);
+              builder.append("The roots of the quadratic equation of the form "+a+"x^2+"+b+"x+"+c+": Root 1: "+root1+ " Root 2 :" + root2);
+
+            } else if (discriminant == 0) {
+              double root = -b / (2 * a);
+              System.out.println("Root: " + root);
+              builder.append("The quadratic equation of the form "+a+"x^2"+b+"x+"+c+" has a single Root: "+root);
+            } else {
+              System.out.println("No real roots exist.");
+              builder.append("No real roots exist.");
+            }
           }
 
 
-
-
-          // TODO: Parse the JSON returned by your fetch and create an appropriate
-
-        } else {
+        }
+        else {
           // if the request is not recognized at all
 
           builder.append("HTTP/1.1 400 Bad Request\n");
