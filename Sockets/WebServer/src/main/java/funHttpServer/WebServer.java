@@ -272,10 +272,11 @@ class WebServer {
             JSONObject jsonObj = jsonArr.getJSONObject(i);
             String fullName = jsonObj.getString("full_name");
             int id = jsonObj.getInt("id");
-          String owner = (String) jsonObj.getString("owner");
-          JSONObject jsonownerObject = new JSONObject(owner);
-           // JSONObject ownerLogin = jsonObj.getJSONObject("owner");
-            String ownerLogin = (String) jsonownerObject.getString("login");
+          //String owner = (String) jsonObj.getString("owner");
+          //JSONObject jsonownerObject = new JSONObject(owner);
+          JSONObject ownerObjectLogin = jsonObj.getJSONObject("owner");
+          String ownerLogin = null;
+          ownerLogin = (String) ownerObjectLogin.getString("login");
             builder.append("full_name : " + fullName +"\n"
                     + "id : " + id +"\n"
                     +"owner login : " + ownerLogin + "\n");
