@@ -288,7 +288,7 @@ class WebServer {
 //            String fullName = dataObject.getString("full_name");
 //            int id = dataObject.getInt("id");
 //            String owner = dataObject.getString("owner");
-          System.out.println(jsonInput);
+          //System.out.println(jsonInput);
 //          builder.append("{");
 //          builder.append("\"header\":\"").append(header).append("\",");
 //          builder.append("\"image\":\"").append(url).append("\"");
