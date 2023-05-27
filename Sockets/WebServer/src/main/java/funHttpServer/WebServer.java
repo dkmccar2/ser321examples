@@ -232,10 +232,10 @@ class WebServer {
 
           if(num1err || num2err) {
 
-            builder.append("HTTP/1.1 400 OK\n");
+            builder.append("HTTP/1.1 400 Bad Request\n");
             builder.append("Content-Type: text/html; charset=utf-8\n");
             builder.append("\n");
-            builder.append("Bad Request: Make sure to Supply the correct parameters. No Special characters, strings, or empty parameters. Example: /multiply?num1=1&num2=3)");
+            builder.append("Bad Request: Make sure to Supply the correct parameters. No Special characters, strings, char, or empty parameters. Example: /multiply?num1=1&num2=3");
           }else {
             Integer result = num1 * num2;
             builder.append("HTTP/1.1 200 OK\n");
@@ -269,8 +269,23 @@ class WebServer {
           builder.append("Content-Type: text/html; charset=utf-8\n");
           builder.append("\n");
           builder.append("Check the todos mentioned in the Java source file");
+          ObjectInputStream input = new ObjectInputStream(inStream);
+          String jsonInput = (String) input.readObject();
+          System.out.println(jsonInput);
+//          builder.append("{");
+//          builder.append("\"header\":\"").append(header).append("\",");
+//          builder.append("\"image\":\"").append(url).append("\"");
+//          builder.append("}");
           // TODO: Parse the JSON returned by your fetch and create an appropriate
           // response based on what the assignment document asks for
+          int index = random.nextInt(_images.size());
+
+          // pull out the information
+          String header = (String) _images.keySet().toArray()[index];
+          String url = _images.get(header);
+
+
+
 
         } else {
           // if the request is not recognized at all
@@ -287,6 +302,8 @@ class WebServer {
     } catch (IOException e) {
       e.printStackTrace();
       response = ("<html>ERROR: " + e.getMessage() + "</html>").getBytes();
+    } catch (ClassNotFoundException e) {
+      throw new RuntimeException(e);
     }
 
     return response;
