@@ -18,6 +18,7 @@ package funHttpServer;
 
 import java.io.*;
 import java.net.*;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.nio.charset.Charset;
 
@@ -378,11 +379,15 @@ class WebServer {
             builder.append("Bad Request: Make sure to Supply the correct parameters. No Special characters, strings, char, or empty parameters. Example: /power?base=1&exponent=3");
           }else {
             double baseToThePowerOfExponent = Math.pow(base,exponent);
+            DecimalFormat decimalFormat = new DecimalFormat("#." + "0".repeat(4));
+
+            // Apply the formatting to the number
+            String truncatedNumber = decimalFormat.format(baseToThePowerOfExponent);
 
             builder.append("HTTP/1.1 200 OK\n");
             builder.append("Content-Type: text/html; charset=utf-8\n");
             builder.append("\n");
-            builder.append(base+ " Raised to the power of "+exponent+ " is " +baseToThePowerOfExponent);
+            builder.append(base+ " Raised to the power of "+exponent+ " is %.4f" +truncatedNumber);
           }
         }
         else {
