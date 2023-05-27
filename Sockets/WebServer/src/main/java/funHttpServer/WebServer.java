@@ -297,24 +297,24 @@ class WebServer {
         }else if(request.contains("quadraticsolver?")){
           Map<String, String> query_pairs = new LinkedHashMap<String, String>();
           query_pairs = splitQuery(request.replace("quadraticsolver?", ""));
-          Integer a = 0;
-          Integer b = 0;
-          Integer c = 0;
+          Double a = 0.0;
+          Double b = 0.0;
+          Double c = 0.0;
           boolean aErr = false;
           boolean bErr = false;
           boolean cErr = false;
           try {
-            a = Integer.parseInt(query_pairs.get("a"));
+            a = Double.parseDouble(query_pairs.get("a"));
           } catch (NumberFormatException e) {
             aErr = true;
           }
           try {
-            b = Integer.parseInt(query_pairs.get("b"));
+            b = Double.parseDouble(query_pairs.get("b"));
           } catch (NumberFormatException e) {
             bErr = true;
           }
           try {
-            c = Integer.parseInt(query_pairs.get("c"));
+            c = Double.parseDouble(query_pairs.get("c"));
           } catch (NumberFormatException e) {
             cErr = true;
           }
@@ -349,6 +349,41 @@ class WebServer {
           }
 
 
+        }
+        else if(request.contains("power?")){
+          Map<String, String> query_pairs = new LinkedHashMap<String, String>();
+          query_pairs = splitQuery(request.replace("power?", ""));
+          Double base = 0.0;
+          Double exponent = 0.0;
+
+          boolean baseErr = false;
+          boolean expErr = false;
+
+          try {
+            base = Double.parseDouble(query_pairs.get("base"));
+          } catch (NumberFormatException e) {
+            baseErr = true;
+          }
+          try {
+            exponent = Double.parseDouble(query_pairs.get("exponent"));
+          } catch (NumberFormatException e) {
+            baseErr = true;
+          }
+
+          if(baseErr || expErr) {
+
+            builder.append("HTTP/1.1 400 Bad Request\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Bad Request: Make sure to Supply the correct parameters. No Special characters, strings, char, or empty parameters. Example: /power?base=1&exponent=3");
+          }else {
+            double baseToThePowerOfExponent = Math.pow(base,exponent);
+
+            builder.append("HTTP/1.1 200 OK\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append(base+ " Raised to the power of "+exponent+ " is " +baseToThePowerOfExponent);
+          }
         }
         else {
           // if the request is not recognized at all
