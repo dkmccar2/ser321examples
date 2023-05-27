@@ -326,8 +326,6 @@ class WebServer {
     } catch (IOException e) {
       e.printStackTrace();
       response = ("<html>ERROR: " + e.getMessage() + "</html>").getBytes();
-    } catch (ClassNotFoundException e) {
-      throw new RuntimeException(e);
     }
 
     return response;
