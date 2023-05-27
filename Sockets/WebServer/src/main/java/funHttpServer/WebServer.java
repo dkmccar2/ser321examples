@@ -291,7 +291,7 @@ class WebServer {
             builder.append("HTTP/1.1 404 Resource Not Found\n");
             builder.append("Content-Type: text/html; charset=utf-8\n");
             builder.append("\n");
-            builder.append("404: Resource Not Found. Check URL for correct format and correct username ");
+            builder.append("404: Resource Not Found. Check URL for correct format and correct username. Example format: /github?query=users/amehlhase316/repos" );
           }
 
 
