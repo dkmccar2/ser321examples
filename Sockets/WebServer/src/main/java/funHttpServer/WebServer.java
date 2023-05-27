@@ -22,6 +22,7 @@ import java.util.*;
 import java.nio.charset.Charset;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 
@@ -264,61 +265,39 @@ class WebServer {
           String json = fetchURL("https://api.github.com/" + query_pairs.get("query"));
           System.out.println(json);
 
-          builder.append("HTTP/1.1 200 OK\n");
-          builder.append("Content-Type: text/html; charset=utf-8\n");
-          builder.append("\n");
-          JSONArray jsonArr = new JSONArray(json);
-          for (int i = 0; i < jsonArr.length(); i++) {
-            JSONObject jsonObj = jsonArr.getJSONObject(i);
-            String fullName = jsonObj.getString("full_name");
-            int id = jsonObj.getInt("id");
-          //String owner = (String) jsonObj.getString("owner");
-          //JSONObject jsonownerObject = new JSONObject(owner);
-          JSONObject ownerObjectLogin = jsonObj.getJSONObject("owner");
-          String ownerLogin = null;
-          ownerLogin = (String) ownerObjectLogin.getString("login");
-          builder.append("<ul>\n");
-            builder.append("<li>" + "full_name : " + fullName +"</li>");
 
-            builder.append("<li>" + "id : " + id +"</li>");
+          try {
+            JSONArray jsonArr = new JSONArray(json);
 
-            builder.append("<li>" + "owner login : " + ownerLogin +"</li>");
-            builder.append("</ul>\n");
+            builder.append("HTTP/1.1 200 OK\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+
+            for (int i = 0; i < jsonArr.length(); i++) {
+              JSONObject jsonObj = jsonArr.getJSONObject(i);
+              String fullName = jsonObj.getString("full_name");
+              int id = jsonObj.getInt("id");
+              JSONObject ownerObjectLogin = jsonObj.getJSONObject("owner");
+              String ownerLogin = null;
+              ownerLogin = (String) ownerObjectLogin.getString("login");
+
+              builder.append("<ul>\n");
+              builder.append("<li>" + "full_name : " + fullName + "</li>");
+              builder.append("<li>" + "id : " + id + "</li>");
+              builder.append("<li>" + "owner login : " + ownerLogin + "</li>");
+              builder.append("</ul>\n");
+            }
+          }catch(JSONException e){
+            builder.append("HTTP/1.1 404 Resource Not Found\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("404: Resource Not Found. Check URL for correct format and correct username ");
           }
 
-//          ObjectInputStream input = new ObjectInputStream(inStream);
-//          String jsonInput = (String) input.readObject();
-//          JSONObject jsonInputObject = new JSONObject(jsonInput);
 
 
-//          Iterator<String> keys = jsonInputObject.keys();
-//          while(keys.hasNext()) {
-//
-//          }
-//            String key = keys.next();
-//          for (int i = 0; i < dataArray.length(); i++) {
-//            // Get the current object from the array
-//            JSONObject dataObject = dataArray.getJSONObject(i);
-//
-//            // Retrieve the values of the fields: full_name, id, and owner
-//            String fullName = dataObject.getString("full_name");
-//            int id = dataObject.getInt("id");
-//            String owner = dataObject.getString("owner");
-          //System.out.println(jsonInput);
-//          builder.append("{");
-//          builder.append("\"header\":\"").append(header).append("\",");
-//          builder.append("\"image\":\"").append(url).append("\"");
-//          builder.append("}");
+
           // TODO: Parse the JSON returned by your fetch and create an appropriate
-          // response based on what the assignment document asks for
-         // int index = random.nextInt(_images.size());
-
-          // pull out the information
-         // String header = (String) _images.keySet().toArray()[index];
-          //String url = _images.get(header);
-
-
-
 
         } else {
           // if the request is not recognized at all
