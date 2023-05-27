@@ -336,12 +336,12 @@ class WebServer {
               double root2 = (-b - Math.sqrt(discriminant)) / (2 * a);
               System.out.println("Root 1: " + root1);
               System.out.println("Root 2: " + root2);
-              builder.append("The roots of the quadratic equation of the form "+a+"x^2+"+b+"x+"+c+": Root 1: "+root1+ " Root 2 :" + root2);
+              builder.append("The roots of the quadratic equation of the form "+a+"x^2+"+b+"+x+"+c+": Root 1: "+root1+ " Root 2 :" + root2);
 
             } else if (discriminant == 0) {
               double root = -b / (2 * a);
               System.out.println("Root: " + root);
-              builder.append("The quadratic equation of the form "+a+"x^2"+b+"x+"+c+" has a single Root: "+root);
+              builder.append("The quadratic equation of the form "+a+"x^2"+b+"+x+"+c+" has a single Root: "+root);
             } else {
               System.out.println("No real roots exist.");
               builder.append("No real roots exist.");
