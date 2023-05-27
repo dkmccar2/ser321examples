@@ -278,11 +278,11 @@ class WebServer {
           String ownerLogin = null;
           ownerLogin = (String) ownerObjectLogin.getString("login");
             builder.append("full_name : " + fullName);
-            builder.append("\n");
+            builder.append("\r\n");
             builder.append("id : " + id);
-            builder.append("\n");
+            builder.append("\r\n");
             builder.append("owner login : " + ownerLogin);
-            builder.append("\n");
+            builder.append("\r\n");
           }
 
 //          ObjectInputStream input = new ObjectInputStream(inStream);
