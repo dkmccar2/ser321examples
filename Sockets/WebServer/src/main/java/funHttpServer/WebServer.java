@@ -18,13 +18,10 @@ package funHttpServer;
 
 import java.io.*;
 import java.net.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.Map;
-import java.util.LinkedHashMap;
+import java.util.*;
 import java.nio.charset.Charset;
+import org.json.JSONObject;
+
 
 class WebServer {
   public static void main(String args[]) {
@@ -268,9 +265,29 @@ class WebServer {
           builder.append("HTTP/1.1 200 OK\n");
           builder.append("Content-Type: text/html; charset=utf-8\n");
           builder.append("\n");
-          builder.append("Check the todos mentioned in the Java source file");
+
           ObjectInputStream input = new ObjectInputStream(inStream);
           String jsonInput = (String) input.readObject();
+          JSONObject jsonInputObject = new JSONObject(jsonInput);
+          String fullName = jsonInputObject.getString("full_name");
+          int id = jsonInputObject.getInt("id");
+          String owner = jsonInputObject.getString("owner");
+          builder.append("full_name : " + fullName +"\n"
+                          + "id : " + id +"\n"
+                          +"owner : " + owner + "\n");
+//          Iterator<String> keys = jsonInputObject.keys();
+//          while(keys.hasNext()) {
+//
+//          }
+//            String key = keys.next();
+//          for (int i = 0; i < dataArray.length(); i++) {
+//            // Get the current object from the array
+//            JSONObject dataObject = dataArray.getJSONObject(i);
+//
+//            // Retrieve the values of the fields: full_name, id, and owner
+//            String fullName = dataObject.getString("full_name");
+//            int id = dataObject.getInt("id");
+//            String owner = dataObject.getString("owner");
           System.out.println(jsonInput);
 //          builder.append("{");
 //          builder.append("\"header\":\"").append(header).append("\",");
