@@ -278,11 +278,11 @@ class WebServer {
 //          builder.append("}");
           // TODO: Parse the JSON returned by your fetch and create an appropriate
           // response based on what the assignment document asks for
-          int index = random.nextInt(_images.size());
+         // int index = random.nextInt(_images.size());
 
           // pull out the information
-          String header = (String) _images.keySet().toArray()[index];
-          String url = _images.get(header);
+         // String header = (String) _images.keySet().toArray()[index];
+          //String url = _images.get(header);
 
 
 
