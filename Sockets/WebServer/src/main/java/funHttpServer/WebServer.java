@@ -368,7 +368,7 @@ class WebServer {
           try {
             exponent = Double.parseDouble(query_pairs.get("exponent"));
           } catch (NumberFormatException e) {
-            baseErr = true;
+            expErr = true;
           }
 
           if(baseErr || expErr) {
