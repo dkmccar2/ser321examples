@@ -202,44 +202,52 @@ class WebServer {
           query_pairs = splitQuery(request.replace("multiply?", ""));
 
           // extract required fields from parameters
-          Integer num1 = Integer.parseInt(query_pairs.get("num1"));
-          Integer num2 = Integer.parseInt(query_pairs.get("num2"));
-          Integer result;
-          if(num1 != null && num2 != null) {
+       //   String query1 = query_pairs.get("num1");
+         // String query2 = query_pairs.get("num2");
+//          if(query1 == null){
+//
+//          }
+//          if(query2 == null){
+//
+//          }
+//          if(query1.equals("")){
+//            query1 = "1";
+//          }else if(query2.equals("")){
+//            query2 = "1";
+//          }
+          boolean num1err = false;
+          boolean num2err = false;
+          Integer num1 = 0;
+          Integer num2 = 0;
+          try {
+            num1 = Integer.parseInt(query_pairs.get("num1"));
+          } catch (NumberFormatException e) {
+            num1err = true;
+            }
+          try {
+            num2 = Integer.parseInt(query_pairs.get("num2"));
+          } catch (NumberFormatException e) {
+            num2err = true;
+          }
 
+          if(num1err || num2err) {
 
-            // do math
-            result = num1 * num2;
-
-            // Generate response
+            builder.append("HTTP/1.1 400 OK\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Bad Request: Make sure to Supply the correct parameters. No Special characters, strings, or empty parameters. Example: /multiply?num1=1&num2=3)");
+          }else {
+            Integer result = num1 * num2;
             builder.append("HTTP/1.1 200 OK\n");
             builder.append("Content-Type: text/html; charset=utf-8\n");
             builder.append("\n");
             builder.append("Result is: " + result);
           }
-          else if(num1 != null && num2 == null){
-            num2 = 1;
-            result = num1 * num2;
-            builder.append("HTTP/1.1 200 OK\n");
-            builder.append("Content-Type: text/html; charset=utf-8\n");
-            builder.append("\n");
-            builder.append("Num1 was not supplied as a parameter, default multiplication by 1. Result is : " + result);
+            // do math
 
-          }
-          else if(num2 != null && num1 == null){
-            num1 = 1;
-            result = num1 * num2;
-            builder.append("HTTP/1.1 200 OK\n");
-            builder.append("Content-Type: text/html; charset=utf-8\n");
-            builder.append("\n");
-            builder.append("Num1 was not supplied as a parameter, default multiplication by 1. Result is : " + result);
-          }
-          else{
-            builder.append("HTTP/1.1 400 OK\n");
-            builder.append("Content-Type: text/html; charset=utf-8\n");
-            builder.append("\n");
-            builder.append("Bad Request");
-          }
+
+            // Generate response
+
           // TODO: Include error handling here with a correct error code and
           // a response that makes sense
 
