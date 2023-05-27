@@ -204,16 +204,42 @@ class WebServer {
           // extract required fields from parameters
           Integer num1 = Integer.parseInt(query_pairs.get("num1"));
           Integer num2 = Integer.parseInt(query_pairs.get("num2"));
+          Integer result;
+          if(num1 != null && num2 != null) {
 
-          // do math
-          Integer result = num1 * num2;
 
-          // Generate response
-          builder.append("HTTP/1.1 200 OK\n");
-          builder.append("Content-Type: text/html; charset=utf-8\n");
-          builder.append("\n");
-          builder.append("Result is: " + result);
+            // do math
+            result = num1 * num2;
 
+            // Generate response
+            builder.append("HTTP/1.1 200 OK\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Result is: " + result);
+          }
+          else if(num1 != null && num2 == null){
+            num2 = 1;
+            result = num1 * num2;
+            builder.append("HTTP/1.1 200 OK\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Num1 was not supplied as a parameter, default multiplication by 1. Result is : " + result);
+
+          }
+          else if(num2 != null && num1 == null){
+            num1 = 1;
+            result = num1 * num2;
+            builder.append("HTTP/1.1 200 OK\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Num1 was not supplied as a parameter, default multiplication by 1. Result is : " + result);
+          }
+          else{
+            builder.append("HTTP/1.1 400 OK\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Bad Request");
+          }
           // TODO: Include error handling here with a correct error code and
           // a response that makes sense
 
